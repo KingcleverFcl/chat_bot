@@ -1,6 +1,8 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
-from config import DATABASE_URL
+import asyncpg
+import os
 
-engine = create_async_engine(DATABASE_URL, echo=False)
-async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+# Устанавливаем соединение с базой
+async def get_connection():
+    return await asyncpg.connect(DATABASE_URL)
